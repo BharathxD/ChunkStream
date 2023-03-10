@@ -17,3 +17,14 @@
 - cors
 - helmet
 - @mantine/form
+
+## DevDependencies for the Backend
+
+- typescript
+- ts-node-dev
+- pino-pretty
+- @types/express
+- @types/jsonwebtoken
+- @types/cookie-parser
+- @types/busboy
+- @types/cors
