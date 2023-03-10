@@ -16,7 +16,7 @@ const gracefulShutdown = (signal: string) => {
   process.on(signal, () => {
     server.close();
     // TODO: Disconnect from the DataBase
-    logger.info("My Work Here Is Done ✅");
+    console.log("Exit: My Work Here Is Done ✅");
     process.exit(0);
   });
 };
