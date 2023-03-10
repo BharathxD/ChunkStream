@@ -11,6 +11,7 @@ export const connect = async () => {
     await mongoose.connect(DB_CONNECTION_STRING);
     logger.info("Sucessfully connected to the Database ✅");
   } catch (error: any) {
+    logger.info("Error connecting to the Database ❌");
     logger.error(error);
     process.exit(1);
   }
