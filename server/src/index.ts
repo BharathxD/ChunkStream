@@ -1,11 +1,13 @@
 import express from "express";
-import logger from "../utils/logger";
+import logger from "./utils/logger";
+import { connect, disconnect } from "./utils/connect";
 
 const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
+  await connect();
   logger.info(`Server is running on http://localhost:${PORT}`);
 });
 
@@ -13,9 +15,10 @@ const server = app.listen(PORT, () => {
 const signals = ["SIGTERM", "SIGINT"];
 
 const gracefulShutdown = (signal: string) => {
-  process.on(signal, () => {
+  process.on(signal, async () => {
     server.close();
-    // TODO: Disconnect from the DataBase
+    await disconnect();
+    //? Disconnect from the Database
     console.log("Exit: My Work Here Is Done ✅");
     process.exit(0);
   });
