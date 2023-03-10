@@ -14,3 +14,13 @@ const connect = async () => {
     process.exit(1);
   }
 };
+
+const disconnect = async () => {
+  try {
+    logger.info("Terminating the Connection to the Database...");
+    await mongoose.connection.close();
+    logger.info("Sucessfully Disconnected from the Database ✅");
+  } catch (error: any) {
+    logger.error(error);
+  }
+};
