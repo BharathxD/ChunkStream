@@ -1,7 +1,7 @@
-import { object, string } from "zod";
+import { object, string, TypeOf } from "zod";
 
 export const RegisterUserSchema = object({
-  user: object({
+  body: object({
     username: string({
       required_error: "Username is required",
     }),
@@ -24,3 +24,8 @@ export const RegisterUserSchema = object({
     path: ["confirmPassword"],
   }),
 });
+
+export type registerUserInput = Omit<
+  TypeOf<typeof RegisterUserSchema>,
+  "body.passwordConfirmation"
+>;
