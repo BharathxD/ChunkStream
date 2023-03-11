@@ -8,7 +8,6 @@ export const registerUserHandler = async (
   response: Response
 ) => {
   const { username, email, password } = request.body;
-  console.log(request.body);
   try {
     // TODO: Create User
     const user = await createUser({ username, email, password });
