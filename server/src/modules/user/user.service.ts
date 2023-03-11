@@ -7,7 +7,7 @@ export const createUser = async (user: Omit<User, "comparePassword">) => {
   return omit(createdUser.toJSON(), "password");
 };
 
-export const findUserByEmail = (email: Pick<User, "email">) => {
+export const findUserByEmail = (email: User["email"]) => {
   const user = UserModel.findOne({ email });
   console.log(user);
   return user;

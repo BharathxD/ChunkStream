@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { findUserByEmail } from "../user/user.service";
-import { User } from "../user/user.model";
 import { StatusCodes } from "http-status-codes";
 import { signJWT } from "./auth.utils";
+import { loginInput } from "./auth.schema";
 
-export const loginHandler = async (req: Request, res: Response) => {
+export const loginHandler = async (
+  req: Request<{}, {}, loginInput>,
+  res: Response
+) => {
   const { email, password } = req.body;
   // TODO: Find user by email
   const user = findUserByEmail(email);
