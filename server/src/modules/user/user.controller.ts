@@ -4,10 +4,11 @@ import { createUser } from "./user.service";
 import { registerUserInput } from "./user.schema";
 
 export const registerUserHandler = async (
-  request: Request<{}, {}, registerUserInput["body"]>,
+  request: Request<{}, {}, registerUserInput>,
   response: Response
 ) => {
   const { username, email, password } = request.body;
+  console.log(request.body);
   try {
     // TODO: Create User
     const user = await createUser({ username, email, password });

@@ -21,6 +21,11 @@ app.use(
 );
 app.use(helmet());
 
+app.use((req, res, next) => {
+  console.log(req.body);
+  next();
+});
+
 app.use("/api/users", userRoute);
 
 const server = app.listen(PORT, async () => {
