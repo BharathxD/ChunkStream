@@ -11,7 +11,9 @@ export const registerUserHandler = async (
   try {
     // TODO: Create User
     const user = await createUser({ username, email, password });
-    response.status(StatusCodes.CREATED).send("User created successfully");
+    response
+      .status(StatusCodes.CREATED)
+      .send({ message: "User created successfully" });
   } catch (error: any) {
     if (error.code === 11000) {
       return response

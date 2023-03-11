@@ -5,6 +5,7 @@ import logger from "./utils/logger";
 import { connect, disconnect } from "./utils/connect";
 import { CORS_ORIGIN } from "./constants/constants";
 import helmet from "helmet";
+import userRoute from "./modules/user/user.route";
 
 const app = express();
 
@@ -20,9 +21,11 @@ app.use(
 );
 app.use(helmet());
 
+app.use("/api/users", userRoute);
+
 const server = app.listen(PORT, async () => {
-  await connect();
   logger.info(`Server is running on http://localhost:${PORT}`);
+  await connect();
 });
 
 //? These are signals used to terminate a process
@@ -31,7 +34,6 @@ const signals = ["SIGTERM", "SIGINT"];
 const gracefulShutdown = (signal: string) => {
   process.once(signal, async () => {
     console.log(`Received ${signal}, shutting down gracefully...`);
-
     try {
       await Promise.all([
         new Promise<void>((resolve, reject) => {
@@ -45,10 +47,10 @@ const gracefulShutdown = (signal: string) => {
         }),
         disconnect(),
       ]);
-      console.log("Server and database connections closed.");
+      console.log("Server and database connections closed ✅.");
       process.exit(0);
     } catch (err) {
-      console.error("Error while shutting down:", err);
+      console.error("Error while shutting down ❌:", err);
       process.exit(1);
     }
   });

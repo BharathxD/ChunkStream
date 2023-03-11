@@ -1,5 +1,4 @@
 import { getModelForClass, prop, pre } from "@typegoose/typegoose";
-import { TimeStamps } from "@typegoose/typegoose/lib/defaultClasses";
 import argon2 from "argon2";
 
 @pre<User>("save", async function (this, next) {
@@ -15,11 +14,11 @@ import argon2 from "argon2";
 // We are going to use this class for the model interface, and export a model
 export class User {
   @prop({ required: true, unique: true })
-  public username: string;
+  public username!: string;
   @prop({ required: true, unique: true })
-  public email: string;
+  public email!: string;
   @prop({ required: true })
-  public password: string;
+  public password!: string;
   // Defining methods to compare password
   public async comparePassword(password: string): Promise<boolean> {
     return argon2.verify(this.password, password);
