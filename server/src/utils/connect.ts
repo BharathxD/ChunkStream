@@ -19,7 +19,7 @@ export const connect = async () => {
 
 export const disconnect = async () => {
   try {
-    logger.info("Terminating the Connection to the Database...");
+    logger.info("Terminating the Connection from the Database...");
     await mongoose.connection.close();
     logger.info("Sucessfully Disconnected from the Database ✅");
   } catch (error: any) {

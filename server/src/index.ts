@@ -29,15 +29,31 @@ const server = app.listen(PORT, async () => {
 const signals = ["SIGTERM", "SIGINT"];
 
 const gracefulShutdown = (signal: string) => {
-  process.on(signal, async () => {
-    server.close();
-    await disconnect();
-    //? Disconnect from the Database
-    console.log("Exit: My Work Here Is Done ✅");
-    process.exit(0);
+  process.once(signal, async () => {
+    console.log(`Received ${signal}, shutting down gracefully...`);
+
+    try {
+      await Promise.all([
+        new Promise<void>((resolve, reject) => {
+          server.close((err) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve();
+            }
+          });
+        }),
+        disconnect(),
+      ]);
+      console.log("Server and database connections closed.");
+      process.exit(0);
+    } catch (err) {
+      console.error("Error while shutting down:", err);
+      process.exit(1);
+    }
   });
 };
 
-for (let i = 0; i < signals.length; i++) {
-  gracefulShutdown(signals[i]);
+for (const signal of signals) {
+  gracefulShutdown(signal);
 }
