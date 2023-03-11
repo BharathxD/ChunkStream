@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { findUserByEmail } from "../user/user.service";
+import { findUserByEmail, validateUser } from "../user/user.service";
 import { StatusCodes } from "http-status-codes";
 import { signJWT } from "./auth.utils";
 import { loginInput } from "./auth.schema";
@@ -8,18 +8,18 @@ export const loginHandler = async (
   req: Request<{}, {}, loginInput>,
   res: Response
 ) => {
+  console.log("running");
   const { email, password } = req.body;
   // TODO: Find user by email
-  const user = findUserByEmail(email);
-  // TODO: Verify user password
-  if (!user || !user.comparePassword(password)) {
+  const user = await validateUser({ email, password });
+  // TODO: Verify user password}
+  if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .send({ message: "Invalid email or password " });
   }
-  const payload = user.toJSON();
   // TODO: Sign a JWT
-  const jwt = signJWT(payload);
+  const jwt = signJWT(user);
   // TODO: Add a cookie to response
   res.cookie("accessToken", jwt, {
     maxAge: 3.154e10, //? 1 Year

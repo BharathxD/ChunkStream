@@ -5,12 +5,15 @@ import logger from "./utils/logger";
 import { connect, disconnect } from "./utils/connect";
 import { CORS_ORIGIN } from "./constants/constants";
 import helmet from "helmet";
+import dotenv from "dotenv";
 import userRoute from "./modules/user/user.route";
+import authRoute from "./modules/auth/auth.route";
 
 const app = express();
 
 const PORT = process.env.PORT || 4000;
 
+dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(
@@ -22,6 +25,7 @@ app.use(
 app.use(helmet());
 
 app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
 
 const server = app.listen(PORT, async () => {
   logger.info(`Server is running on http://localhost:${PORT}`);

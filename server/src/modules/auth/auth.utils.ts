@@ -16,7 +16,7 @@ export const signJWT = (
 };
 
 export const verifyJWT = (token: string) => {
-  const JWT_SECRET = process.env.ACCESS_TOKEN_PRIVATE_KEY;
+  const JWT_SECRET = process.env.ACCESS_TOKEN_PUBLIC_KEY;
   const verifyingKey = Buffer.from(JWT_SECRET!, "base64").toString("ascii");
   try {
     const decoded = jwt.verify(token, verifyingKey);

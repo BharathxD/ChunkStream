@@ -9,6 +9,24 @@ export const createUser = async (user: Omit<User, "comparePassword">) => {
 
 export const findUserByEmail = (email: User["email"]) => {
   const user = UserModel.findOne({ email });
-  console.log(user);
   return user;
+};
+
+export const validateUser = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const user = await findUserByEmail(email);
+  console.log(user);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const isValid = await user.comparePassword(password);
+  if (!isValid) {
+    return null;
+  }
+  return omit(user.toJSON(), "password");
 };
