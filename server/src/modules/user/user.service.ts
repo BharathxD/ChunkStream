@@ -1,6 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery } from "mongoose";
 import { User, UserModel } from "./user.model";
+import { omit } from "lodash";
 
 export const createUser = async (user: Omit<User, "comparePassword">) => {
-  return await UserModel.create(user);
+  const createdUser = await UserModel.create(user);
+  return omit(createdUser.toJSON(), "password");
+};
+
+export const findUserByEmail = (email: Pick<User, "email">) => {
+  const user = UserModel.findOne({ email });
+  console.log(user);
+  return user;
 };

@@ -13,7 +13,7 @@ export const registerUserHandler = async (
     const user = await createUser({ username, email, password });
     response
       .status(StatusCodes.CREATED)
-      .send({ message: "User created successfully" });
+      .send({ message: "User created successfully", user: user });
   } catch (error: any) {
     if (error.code === 11000) {
       return response
