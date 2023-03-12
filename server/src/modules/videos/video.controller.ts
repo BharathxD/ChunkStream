@@ -14,6 +14,7 @@ const getPath = ({
   videoId: Video["videoId"];
   extension: Video["extension"];
 }) => {
+  console.log(process.cwd());
   return `${process.cwd()}/videos/${videoId}.${extension}`;
 };
 
@@ -24,7 +25,7 @@ export const uploadVideoHandler = async (
 ) => {
   const bb = busboy({ headers: req.headers });
   const user = res.locals.user;
-  const video = await createVideo({ owner: user._id });
+  const video = await createVideo({ owner: user.decoded._id });
   bb.on("file", async (_, file, info) => {
     //? If the current videos mimeType doesn't include the required video extension, it returns an error message
     if (!MIME_TYPES.includes(info.mimeType)) {

@@ -1,19 +1,19 @@
 import { getModelForClass, prop, Ref } from "@typegoose/typegoose";
 import { User } from "../user/user.model";
-import { customAlphabet } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 
-const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvxyz", 10);
+const id = uuidv4(); // generates a unique ID
 
 export class Video {
-  @prop({ required: true })
+  @prop()
   public title!: string;
-  @prop({ required: true })
+  @prop()
   public description!: string;
-  @prop({ required: true, enum: ["mp4", "mov"] })
+  @prop({ enum: ["mp4", "mov"] })
   public extension!: string;
   @prop({ required: true, ref: () => User })
   public owner!: Ref<User>;
-  @prop({ unique: true, default: () => nanoid() })
+  @prop({ unique: true, default: () => id })
   public videoId!: string;
   @prop({ default: false })
   public published!: boolean;

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import logger from "../../utils/logger";
+import { User } from "../user/user.model";
 
 export const signJWT = (
   payload: string | Buffer | object,

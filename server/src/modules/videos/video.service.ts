@@ -1,5 +1,5 @@
 import { VideoModel } from "./video.model";
 
-export const createVideo = ({ owner }: { owner: string }) => {
-  return VideoModel.create({ owner });
+export const createVideo = async ({ owner }: { owner: string }) => {
+  return await VideoModel.create({ owner });
 };
