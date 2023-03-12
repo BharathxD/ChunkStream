@@ -9,3 +9,9 @@ export const findVideo = async ({ videoId }: { videoId: Video["videoId"] }) => {
   const video = await VideoModel.findOne({ videoId });
   return video;
 };
+
+export const findVideos = async () => {
+  //? Plain JavaScript Objects
+  const video = await VideoModel.find({ published: true }).lean();
+  return video;
+};

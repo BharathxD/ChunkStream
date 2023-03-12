@@ -1,7 +1,7 @@
 import fs from "fs";
 import busboy from "busboy";
 import { NextFunction, Request, Response } from "express";
-import { createVideo, findVideo } from "./video.service";
+import { createVideo, findVideo, findVideos } from "./video.service";
 import { StatusCodes } from "http-status-codes";
 import { Video } from "./video.model";
 import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
@@ -70,7 +70,7 @@ export const updateVideoHandler = async (
     res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
     return;
   }
-  if (video.owner !== userId) {
+  if (String(video.owner) !== String(userId)) {
     res.status(StatusCodes.UNAUTHORIZED).send({ message: "Unauthorized" });
     return;
   }
@@ -79,4 +79,9 @@ export const updateVideoHandler = async (
   video.published = published;
   await video.save();
   return res.status(StatusCodes.OK).send(video);
+};
+
+export const findVideosHandler = async (_: Request, res: Response) => {
+  const videos = await findVideos();
+  return res.status(StatusCodes.OK).send(videos);
 };
