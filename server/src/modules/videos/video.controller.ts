@@ -124,6 +124,7 @@ export const streamVideoHander = async (req: Request, res: Response) => {
     "Accept-Ranges": `bytes`,
     "Content-Length": contentLength,
     "Content-Type": `video/${video.extension}`,
+    "Cross-Origin_Resource-Policy": "cross-origin",
   };
   res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);
   const videoStream = fs.createReadStream(filePath, {
