@@ -14,6 +14,6 @@
     /* Completeness */
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
   }
 }

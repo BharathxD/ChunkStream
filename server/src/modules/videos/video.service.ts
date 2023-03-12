@@ -6,5 +6,6 @@ export const createVideo = async ({ owner }: { owner: string }) => {
 };
 
 export const findVideo = async ({ videoId }: { videoId: Video["videoId"] }) => {
-  return await VideoModel.findById({ videoId });
+  const video = await VideoModel.findOne({ videoId });
+  return video;
 };

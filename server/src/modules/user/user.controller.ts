@@ -24,5 +24,5 @@ export const registerUserHandler = async (
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .send({ message: error.message });
     }
-  } 
+  }
 };

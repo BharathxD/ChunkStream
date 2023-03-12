@@ -7,7 +7,7 @@ const UpdateVideoSchema = {
     published: boolean(),
   }),
   params: object({
-    videoId: string (),
+    videoId: string(),
   }),
 };
 

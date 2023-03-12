@@ -72,6 +72,7 @@ export const updateVideoHandler = async (
   }
   if (video.owner !== userId) {
     res.status(StatusCodes.UNAUTHORIZED).send({ message: "Unauthorized" });
+    return;
   }
   video.title = title;
   video.description = description;

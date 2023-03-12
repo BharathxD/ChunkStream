@@ -13,7 +13,7 @@ const deserializeUser = (req: Request, res: Response, next: NextFunction) => {
   const decoded = verifyJWT(accessToken);
   if (decoded) {
     res.locals.user = decoded;
-    return next();  
+    return next();
   }
 };
 

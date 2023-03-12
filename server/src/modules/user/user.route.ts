@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/", requireUser, (req, res) => {
   res.send(res.locals.user);
-})
+});
 
 router.post(
   "/",
