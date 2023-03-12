@@ -112,19 +112,24 @@ export const streamVideoHander = async (req: Request, res: Response) => {
     videoId: video.videoId,
     extension: video.extension,
   });
+
+  //? Determine the file size in bytes.
   const fileSizeInBytes = fs.statSync(filePath).size;
+  //? ThisThe following line of code extracts the start position of a byte range from an HTTP Range header by removing non-digit characters and parsing the result as a number.
   const chunkStart = Number(range.replace(/\D/g, ""));
+  //? The following line of code calculates the end position of a byte range based on the start position, the file size, and a maximum chunk size, ensuring that the end position does not exceed the file size or the maximum chunk size.
   const chunkEnd = Math.min(
     chunkStart + CHUNK_SIZE_IN_BYTES,
     fileSizeInBytes - 1
   );
+  //? The following code calculates the length of the chunk that will be sent to the client in bytes, based on the start and end positions of the byte range.
   const contentLength = chunkEnd - chunkStart + 1;
   const headers = {
     "Content-Range": `bytes ${chunkStart}-${chunkEnd}/${fileSizeInBytes}`,
     "Accept-Ranges": `bytes`,
     "Content-Length": contentLength,
     "Content-Type": `video/${video.extension}`,
-    "Cross-Origin_Resource-Policy": "cross-origin",
+    // "Cross-Origin_Resource-Policy": "cross-origin",
   };
   res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);
   const videoStream = fs.createReadStream(filePath, {
