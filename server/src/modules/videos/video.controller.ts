@@ -5,9 +5,11 @@ import { createVideo, findVideo, findVideos } from "./video.service";
 import { StatusCodes } from "http-status-codes";
 import { Video } from "./video.model";
 import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
+import { min } from "lodash";
 
 const MIME_TYPES = ["video/mp4", "video/mov"];
 
+const CHUNK_SIZE_IN_BYTES = 1000 * 1000; //? 1 MB
 const getPath = ({
   videoId,
   extension,
@@ -84,4 +86,49 @@ export const updateVideoHandler = async (
 export const findVideosHandler = async (_: Request, res: Response) => {
   const videos = await findVideos();
   return res.status(StatusCodes.OK).send(videos);
+};
+
+export const streamVideoHander = async (req: Request, res: Response) => {
+  const { videoId } = req.params;
+  //? Range header specifies what path of the header should be returned
+  const range = req.headers.range;
+  //? It is gonna specify which chunk of the video to send
+  if (!range) {
+    //? If range is not specified
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .send({ message: "Range must be provided" });
+    return;
+  }
+  //? Fetching the Video with the id VideoId from the database
+  const video = await findVideo({ videoId });
+  if (!video) {
+    //? If video doesn't exists in the database
+    res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
+    return;
+  }
+  //? Getting the path of the video file
+  const filePath = getPath({
+    videoId: video.videoId,
+    extension: video.extension,
+  });
+  const fileSizeInBytes = fs.statSync(filePath).size;
+  const chunkStart = Number(range.replace(/\D/g, ""));
+  const chunkEnd = Math.min(
+    chunkStart + CHUNK_SIZE_IN_BYTES,
+    fileSizeInBytes - 1
+  );
+  const contentLength = chunkEnd - chunkStart + 1;
+  const headers = {
+    "Content-Range": `bytes ${chunkStart}-${chunkEnd}/${fileSizeInBytes}`,
+    "Accept-Ranges": `bytes`,
+    "Content-Length": contentLength,
+    "Content-Type": `video/${video.extension}`,
+  };
+  res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);
+  const videoStream = fs.createReadStream(filePath, {
+    start: chunkStart,
+    end: chunkEnd,
+  });
+  videoStream.pipe(res);
 };
