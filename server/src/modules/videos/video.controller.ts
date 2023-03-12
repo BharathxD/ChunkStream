@@ -5,7 +5,6 @@ import { createVideo, findVideo, findVideos } from "./video.service";
 import { StatusCodes } from "http-status-codes";
 import { Video } from "./video.model";
 import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
-import { min } from "lodash";
 
 const MIME_TYPES = ["video/mp4", "video/mov"];
 
