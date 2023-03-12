@@ -2,18 +2,18 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import logger from "./utils/logger";
-import { connect, disconnect } from "./utils/connect";
+import { connectToDatabase, disconnectFromDatabase } from "./utils/connect";
 import { CORS_ORIGIN } from "./constants/constants";
 import helmet from "helmet";
 import dotenv from "dotenv";
+dotenv.config();
 import userRoute from "./modules/user/user.route";
 import authRoute from "./modules/auth/auth.route";
+import deserializeUser from "./middleware/deserialize.user";
 
 const app = express();
-
 const PORT = process.env.PORT || 4000;
 
-dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(
@@ -23,13 +23,14 @@ app.use(
   })
 );
 app.use(helmet());
+app.use(deserializeUser);
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 
 const server = app.listen(PORT, async () => {
   logger.info(`Server is running on http://localhost:${PORT}`);
-  await connect();
+  await connectToDatabase();
 });
 
 //? These are signals used to terminate a process
@@ -49,7 +50,7 @@ const gracefulShutdown = (signal: string) => {
             }
           });
         }),
-        disconnect(),
+        disconnectFromDatabase(),
       ]);
       console.log("Server and database connections closed ✅.");
       process.exit(0);

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import logger from "./logger";
 
-const DB_CONNECTION_STRING =
-  process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/video-stream";
-
-export const connect = async () => {
+export const connectToDatabase = async () => {
+  const DB_CONNECTION_STRING =
+    process.env.DB_CONNECTION_STRING ||
+    "mongodb://localhost:27017/video-stream";
   mongoose.set("strictQuery", false);
   try {
     logger.info("Connecting to the Database...");
@@ -17,7 +17,7 @@ export const connect = async () => {
   }
 };
 
-export const disconnect = async () => {
+export const disconnectFromDatabase = async () => {
   try {
     await mongoose.connection.close();
   } catch (error: any) {
