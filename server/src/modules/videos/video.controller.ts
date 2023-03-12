@@ -56,3 +56,7 @@ export const uploadVideoHandler = async (
   });
   return req.pipe(bb);
 };
+
+export const updateVideoHandler = (req: Request, res: Response) => {
+  const videoId = req.params;
+};
