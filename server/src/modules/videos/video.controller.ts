@@ -1,9 +1,10 @@
 import fs from "fs";
 import busboy from "busboy";
 import { NextFunction, Request, Response } from "express";
-import { createVideo } from "./video.service";
+import { createVideo, findVideo } from "./video.service";
 import { StatusCodes } from "http-status-codes";
 import { Video } from "./video.model";
+import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
 
 const MIME_TYPES = ["video/mp4", "video/mov"];
 
@@ -57,6 +58,24 @@ export const uploadVideoHandler = async (
   return req.pipe(bb);
 };
 
-export const updateVideoHandler = (req: Request, res: Response) => {
+export const updateVideoHandler = async (
+  req: Request<UpdateVideoParams, {}, UpdateVideoBody>,
+  res: Response
+) => {
   const videoId = req.params;
+  const { title, description, published } = req.body;
+  const { _id: userId } = res.locals.user;
+  const video = await findVideo(videoId);
+  if (!video) {
+    res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
+    return;
+  }
+  if (video.owner !== userId) {
+    res.status(StatusCodes.UNAUTHORIZED).send({ message: "Unauthorized" });
+  }
+  video.title = title;
+  video.description = description;
+  video.published = published;
+  await video.save();
+  return res.status(StatusCodes.OK).send(video);
 };
