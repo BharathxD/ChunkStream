@@ -14,9 +14,10 @@ const UserContext = createContext<{
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;
-} | null>(null);
+  //@ts-ignore
+}>(null);
 
-const UserContextProvidor = ({ children }: { children: ReactNode }) => {
+const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const { data, isLoading, refetch } = useQuery(QueryKeys.user, getUser);
   return (
     <UserContext.Provider value={{ user: data, refetch }}>
@@ -28,4 +29,4 @@ const UserContextProvidor = ({ children }: { children: ReactNode }) => {
 
 const useUser = () => useContext(UserContext);
 
-export { UserContextProvidor, useUser };
+export { UserContextProvider, useUser };

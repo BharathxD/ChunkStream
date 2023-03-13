@@ -1,5 +1,4 @@
-import HomePage from "@/layout/HomePage";
-import { Inter } from "next/font/google";
+import HomePageLayout from "@/layout/HomePageLayout";
 import { ReactElement } from "react";
 
 const Home = () => {
@@ -7,7 +6,7 @@ const Home = () => {
 };
 
 Home.getLayout = function (page: ReactElement) {
-  return <HomePage>{page}</HomePage>;
+  return <HomePageLayout>{page}</HomePageLayout>;
 };
 
 export default Home;

@@ -6,6 +6,7 @@ import Head from "next/head";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { UserContextProvider } from "@/context";
 
 const queryClient = new QueryClient();
 
@@ -37,11 +38,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       >
         <QueryClientProvider client={queryClient}>
           <Notifications />
-          {getLayout(
-            <main>
-              <Component {...pageProps} />
-            </main>
-          )}
+          <UserContextProvider>
+            {getLayout(
+              <main>
+                <Component {...pageProps} />
+              </main>
+            )}
+          </UserContextProvider>
         </QueryClientProvider>
       </MantineProvider>
     </>
