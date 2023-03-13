@@ -32,13 +32,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         withNormalizeCSS
         theme={{ colorScheme: "light" }}
       >
-        <Notifications>
           {getLayout(
             <main>
               <Component {...pageProps} />
             </main>
           )}
-        </Notifications>
       </MantineProvider>
     </>
   );
