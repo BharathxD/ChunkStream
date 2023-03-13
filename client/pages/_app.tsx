@@ -1,10 +1,13 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Notifications } from "@mantine/notifications";
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import Head from "next/head";
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 type NextPageWithLayout = NextPage & {
   //? Addign get Layout into the NextPage props
@@ -32,11 +35,14 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         withNormalizeCSS
         theme={{ colorScheme: "light" }}
       >
+        <QueryClientProvider client={queryClient}>
+          <Notifications />
           {getLayout(
             <main>
               <Component {...pageProps} />
             </main>
           )}
+        </QueryClientProvider>
       </MantineProvider>
     </>
   );

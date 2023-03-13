@@ -1,7 +1,6 @@
 import HomePage from "@/layout/HomePage";
 import { Inter } from "next/font/google";
 import { ReactElement } from "react";
-const inter = Inter({ subsets: ["latin"] });
 
 const Home = () => {
   return <h1>Home Page</h1>;
