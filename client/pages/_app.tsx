@@ -1,9 +1,23 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import { MantineProvider } from "@mantine/core";
 import Head from "next/head";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
 
-export default function App({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  //? Addign get Layout into the NextPage props
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  //? Including the modified component into the App props
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout || ((page) => page);
   return (
     <>
       <Head>
@@ -18,7 +32,13 @@ export default function App({ Component, pageProps }: AppProps) {
         withNormalizeCSS
         theme={{ colorScheme: "light" }}
       >
-        <Component {...pageProps} />
+        <Notifications>
+          {getLayout(
+            <main>
+              <Component {...pageProps} />
+            </main>
+          )}
+        </Notifications>
       </MantineProvider>
     </>
   );
