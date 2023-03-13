@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         theme={{ colorScheme: "light" }}
       >
         <QueryClientProvider client={queryClient}>
-          <Notifications/>
+          <Notifications />
           {getLayout(
             <main>
               <Component {...pageProps} />

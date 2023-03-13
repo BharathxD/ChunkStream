@@ -27,3 +27,15 @@ export const loginUser = async (payload: {
   const data = await response.data;
   return data;
 };
+
+export const getUser = async () => {
+  try {
+    const response = await axios.get(userBase, {
+      withCredentials: true,
+    });
+    const data = await response.data;
+    return data;
+  } catch (error: any) {
+    return null;
+  }
+};
