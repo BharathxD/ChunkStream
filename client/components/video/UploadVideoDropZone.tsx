@@ -46,15 +46,17 @@ const UploadVideoDropZone = () => {
   };
   return (
     <>
-      <Dropzone
-        onDrop={(files: File[]) => {
-          upload(files);
-        }}
-        accept={[MIME_TYPES.mp4]}
-        multiple={false}
-      >
-        {<DropZoneInnerContent />}
-      </Dropzone>
+      {progress === 0 && (
+        <Dropzone
+          onDrop={(files: File[]) => {
+            upload(files);
+          }}
+          accept={[MIME_TYPES.mp4]}
+          multiple={false}
+        >
+          {<DropZoneInnerContent />}
+        </Dropzone>
+      )}
       {progress > 0 && (
         <Progress
           size={"xl"}

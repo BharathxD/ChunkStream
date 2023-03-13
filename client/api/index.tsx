@@ -58,3 +58,19 @@ export const uploadVideo = async ({
   const data = await response.data;
   return data;
 };
+
+export const updateVideo = async ({
+  videoId,
+  ...payload
+}: {
+  videoId: string;
+  title: string;
+  description: string;
+  published: boolean;
+}) => {
+  const response = await axios.patch(`${videoBase}/${videoId}`, payload, {
+    withCredentials: true,
+  });
+  const data = await response.data;
+  return data;
+};
