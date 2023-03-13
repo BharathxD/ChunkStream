@@ -1,12 +1,13 @@
-import { Group } from "@mantine/core";
-import { Dropzone } from "@mantine/dropzone";
-import React, { ReactNode } from "react";
+import { Group, Progress } from "@mantine/core";
+import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
+import React, { ReactNode, useState } from "react";
 import { ArrowBigUpLine } from "tabler-icons-react";
 import { Text } from "@mantine/core";
+import { useMutation } from "react-query";
+import { Axios, AxiosError } from "axios";
+import { uploadVideo } from "@/api";
 
-const VIDEO_TYPE = ["mp4", "mov"];
-
-const DropZoneInnerContent = (status) => {
+const DropZoneInnerContent = () => {
   return (
     <Group
       position="center"
@@ -24,10 +25,46 @@ const DropZoneInnerContent = (status) => {
 };
 
 const UploadVideoDropZone = () => {
+  const [progress, setProgress] = useState(0);
+  const mutation = useMutation<
+    string,
+    AxiosError,
+    Parameters<typeof uploadVideo>["0"]
+  >(uploadVideo);
+  const config = {
+    onUploadProgress: (progressEvent: any) => {
+      const percentage = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      setProgress(percentage);
+    },
+  };
+  const upload = (files: File[]) => {
+    const formData = new FormData();
+    formData.append("video", files[0]);
+    mutation.mutate({ formData, config });
+  };
   return (
-    <Dropzone onDrop={(files) => {}} accept={VIDEO_TYPE} multiple={false}>
-      {<DropZoneInnerContent status={status}/>}
-    </Dropzone>
+    <>
+      <Dropzone
+        onDrop={(files: File[]) => {
+          upload(files);
+        }}
+        accept={[MIME_TYPES.mp4]}
+        multiple={false}
+      >
+        {<DropZoneInnerContent />}
+      </Dropzone>
+      {progress > 0 && (
+        <Progress
+          size={"xl"}
+          label={`${progress}%`}
+          value={progress}
+          mb="xl"
+          mt="md"
+        ></Progress>
+      )}
+    </>
   );
 };
 

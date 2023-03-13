@@ -4,6 +4,7 @@ const base = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const userBase = `${base}/api/users`;
 const authBase = `${base}/api/auth`;
+const videoBase = `${base}/api/video`;
 
 export const registerUser = async (payload: {
   username: string;
@@ -38,4 +39,22 @@ export const getUser = async () => {
   } catch (error: any) {
     return null;
   }
+};
+
+export const uploadVideo = async ({
+  formData,
+  config,
+}: {
+  formData: FormData;
+  config: {
+    onUploadProgress: (ProgressEvent: any) => void;
+  };
+}) => {
+  const response = await axios.post(videoBase, formData, {
+    withCredentials: true,
+    ...config,
+    headers: { "Content-Type": "application/form-data" },
+  });
+  const data = await response.data;
+  return data;
 };

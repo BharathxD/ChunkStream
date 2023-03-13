@@ -29,7 +29,7 @@ app.use(deserializeUser);
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
-app.use("/api/videos", videoRoute);
+app.use("/api/video", videoRoute);
 
 const server = app.listen(PORT, async () => {
   logger.info(`Server is running on http://localhost:${PORT}`);
