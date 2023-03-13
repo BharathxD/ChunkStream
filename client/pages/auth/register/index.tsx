@@ -10,14 +10,13 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  Text,
   TextInput,
   Title,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 
-function Register() {
+const Register = () => {
   const router = useRouter();
   const form = useForm({
     initialValues: {
@@ -99,6 +98,6 @@ function Register() {
       </Container>
     </>
   );
-}
+};
 
 export default Register;
