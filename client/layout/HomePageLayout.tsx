@@ -6,8 +6,9 @@ import { useUser } from "@/context";
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, refetch } = useUser();
+
   return (
-    <AppShell padding={"md"} navbar={<NavBar />} header={<HeaderLayout />}>
+    <AppShell padding={"md"} navbar={<NavBar />} header={<HeaderLayout user={user} />}>
       {children}
     </AppShell>
   );

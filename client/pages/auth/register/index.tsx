@@ -58,45 +58,51 @@ const Register = () => {
     },
   });
   return (
-    <>
+    <Container size={420} my={40}>
       <Head>
-        <title>Register User</title>
+        <title>Register</title>
       </Head>
-      <Container>
-        <Title>Register</Title>
-        <Paper withBorder shadow="md" p={30} mt={30} radius={"md"}>
-          <form onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
-            <Stack>
-              <TextInput
-                label="Email"
-                placeholder="Joe@example.com"
-                required
-                {...form.getInputProps("email")}
-              ></TextInput>
-              <TextInput
-                label="Username"
-                placeholder="Username"
-                required
-                {...form.getInputProps("username")}
-              ></TextInput>
-              <PasswordInput
-                label="Password"
-                placeholder="Password"
-                required
-                {...form.getInputProps("password")}
-              ></PasswordInput>
-              <PasswordInput
-                label="Confirm Password"
-                placeholder="Confirm Password"
-                required
-                {...form.getInputProps("confirmPassword")}
-              ></PasswordInput>
-              <Button type="submit">Register</Button>
-            </Stack>
-          </form>
-        </Paper>
-      </Container>
-    </>
+      <Title
+        align="center"
+        sx={(theme) => ({
+          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+          fontWeight: 900,
+        })}
+      >
+        Register
+      </Title>
+      <Paper withBorder shadow="md" p={30} mt={30} radius={"lg"}>
+        <form onSubmit={form.onSubmit((values) => mutation.mutate(values))}>
+          <Stack>
+            <TextInput
+              label="Email"
+              placeholder="Joe@example.com"
+              required
+              {...form.getInputProps("email")}
+            ></TextInput>
+            <TextInput
+              label="Username"
+              placeholder="Username"
+              required
+              {...form.getInputProps("username")}
+            ></TextInput>
+            <PasswordInput
+              label="Password"
+              placeholder="Password"
+              required
+              {...form.getInputProps("password")}
+            ></PasswordInput>
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Confirm Password"
+              required
+              {...form.getInputProps("confirmPassword")}
+            ></PasswordInput>
+            <Button type="submit">Register</Button>
+          </Stack>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 
