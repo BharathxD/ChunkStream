@@ -1,7 +1,8 @@
 import { user } from "@/types";
-import { Anchor, Box, Button, Flex, Header } from "@mantine/core";
+import { Box, Button, Flex, Header } from "@mantine/core";
 import React from "react";
 import Link from "next/link";
+import UploadVideo from "@/components/video/UploadVideo";
 
 const HeaderLayout = ({ user }: { user: user }) => {
   return (
@@ -21,7 +22,7 @@ const HeaderLayout = ({ user }: { user: user }) => {
               </Link>
             </>
           )}
-          {user && <p>Upload a video</p>}
+          {user && <UploadVideo />}
         </Box>
       </Flex>
     </Header>
