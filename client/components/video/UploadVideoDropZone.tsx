@@ -1,13 +1,11 @@
 import { Group, Progress } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { ArrowBigUpLine } from "tabler-icons-react";
 import { Text } from "@mantine/core";
 import { useMutation } from "react-query";
-import { Axios, AxiosError, AxiosResponse } from "axios";
 import { uploadVideo } from "@/api";
 import EditVideoForm from "./EditVideoForm";
-import { Video } from "@/types";
 
 const DropZoneInnerContent = () => {
   return (
@@ -32,11 +30,7 @@ const UploadVideoDropZone = ({
   setOpened: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [progress, setProgress] = useState(0);
-  const mutation = useMutation<
-    AxiosResponse<Video>,
-    AxiosError,
-    Parameters<typeof uploadVideo>["0"]
-  >(uploadVideo);
+  const mutation = useMutation(uploadVideo);
   const config = {
     onUploadProgress: (progressEvent: any) => {
       const percentage = Math.round(
@@ -73,7 +67,7 @@ const UploadVideoDropZone = ({
         ></Progress>
       )}
       {mutation.data && (
-        <EditVideoForm videoId={mutation.data.data._id} setOpened={setOpened} />
+        <EditVideoForm videoId={mutation.data.videoId} setOpened={setOpened} />
       )}
     </>
   );

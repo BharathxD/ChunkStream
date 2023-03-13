@@ -16,7 +16,6 @@ const getPath = ({
   videoId: Video["videoId"];
   extension: Video["extension"];
 }) => {
-  console.log(process.cwd());
   return `${process.cwd()}/videos/${videoId}.${extension}`;
 };
 
@@ -65,12 +64,15 @@ export const updateVideoHandler = async (
 ) => {
   const videoId = req.params;
   const { title, description, published } = req.body;
-  const { _id: userId } = res.locals.user;
+  const {
+    decoded: { _id: userId },
+  } = res.locals.user;
   const video = await findVideo(videoId);
   if (!video) {
     res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
     return;
   }
+  console.log(userId);
   if (String(video.owner) !== String(userId)) {
     res.status(StatusCodes.UNAUTHORIZED).send({ message: "Unauthorized" });
     return;

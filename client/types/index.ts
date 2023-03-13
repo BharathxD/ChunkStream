@@ -1,6 +1,6 @@
 export const enum QueryKeys {
   user = "user",
-  videos = "videos",
+  videos = "video",
 }
 
 export interface user {

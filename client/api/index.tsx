@@ -1,10 +1,11 @@
+import { Video } from "@/types";
 import axios from "axios";
 
 const base = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const userBase = `${base}/api/users`;
 const authBase = `${base}/api/auth`;
-const videoBase = `${base}/api/video`;
+const videoBase = `${base}/api/videos`;
 
 export const registerUser = async (payload: {
   username: string;
@@ -68,9 +69,12 @@ export const updateVideo = async ({
   description: string;
   published: boolean;
 }) => {
-  const response = await axios.patch(`${videoBase}/${videoId}`, payload, {
-    withCredentials: true,
-  });
-  const data = await response.data;
-  return data;
+  const response = await axios.patch<Video>(
+    `${videoBase}/${videoId}`,
+    payload,
+    {
+      withCredentials: true,
+    }
+  );
+  return response;
 };

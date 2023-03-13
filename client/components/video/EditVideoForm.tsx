@@ -5,7 +5,7 @@ import { useForm } from "@mantine/form";
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { useMutation } from "react-query";
-import { Stack } from "tabler-icons-react";
+import { Stack } from "@mantine/core";
 
 const EditVideoForm = ({
   videoId,
