@@ -5,9 +5,9 @@
 - TypeScript
 - MongoDB
 - Express
+- NextJS
 - React
 - NodeJS
-- NextJS
 
 ## Server
 
