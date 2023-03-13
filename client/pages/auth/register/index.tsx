@@ -15,8 +15,10 @@ import {
   Title,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
+import { useRouter } from "next/router";
 
 function Register() {
+  const router = useRouter();
   const form = useForm({
     initialValues: {
       email: "",
@@ -45,6 +47,7 @@ function Register() {
         message: "Succesfully created the Account",
         loading: false,
       });
+      router.push("/auth/login");
     },
     onError: () => {
       updateNotification({
