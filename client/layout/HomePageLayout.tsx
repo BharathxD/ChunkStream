@@ -8,7 +8,11 @@ const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, refetch } = useUser();
 
   return (
-    <AppShell padding={"md"} navbar={<NavBar />} header={<HeaderLayout user={user} />}>
+    <AppShell
+      padding={"md"}
+      navbar={<NavBar />}
+      header={<HeaderLayout user={user} />}
+    >
       {children}
     </AppShell>
   );
