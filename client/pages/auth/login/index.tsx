@@ -6,12 +6,35 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  Text,
   TextInput,
   Title,
 } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useForm } from "@mantine/form";
+import { useMutation } from "react-query";
+import { AxiosError } from "axios";
+import { loginUser } from "@/api";
+import { redirect } from "next/dist/server/api-utils";
 
 const Login = () => {
+  const router = useRouter();
+  const loginForm = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const mutator = useMutation<
+    string,
+    AxiosError,
+    Parameters<typeof loginUser>["0"]
+  >(loginUser, {
+    onMutate: () => {},
+    onSuccess: () => {
+      router.push("/");
+    },
+    onError: () => {},
+  });
   return (
     <>
       <Head>
@@ -20,7 +43,11 @@ const Login = () => {
       <Container>
         <Title>Register</Title>
         <Paper withBorder shadow="md" p={30} mt={30} radius={"md"}>
-          <form onSubmit={() => {}}>
+          <form
+            onSubmit={loginForm.onSubmit((values) => {
+              mutator.mutate(values);
+            })}
+          >
             <Stack>
               <TextInput
                 label="Email"

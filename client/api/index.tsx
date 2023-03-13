@@ -14,3 +14,4 @@ export const registerUser = async (payload: {
   const data = await response.data;
   return data;
 };
+
