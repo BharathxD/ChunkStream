@@ -3,6 +3,7 @@ import axios from "axios";
 const base = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const userBase = `${base}/api/users`;
+const authBase = `${base}/api/auth`;
 
 export const registerUser = async (payload: {
   username: string;
@@ -15,3 +16,14 @@ export const registerUser = async (payload: {
   return data;
 };
 
+export const loginUser = async (payload: {
+  email: string;
+  password: string;
+}) => {
+  console.log(payload);
+  const response = await axios.post(authBase, payload, {
+    withCredentials: true,
+  });
+  const data = await response.data;
+  return data;
+};
