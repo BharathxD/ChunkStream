@@ -1,11 +1,13 @@
 import { Group, Progress } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-import React, { ReactNode, useState } from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { ArrowBigUpLine } from "tabler-icons-react";
 import { Text } from "@mantine/core";
 import { useMutation } from "react-query";
-import { Axios, AxiosError } from "axios";
+import { Axios, AxiosError, AxiosResponse } from "axios";
 import { uploadVideo } from "@/api";
+import EditVideoForm from "./EditVideoForm";
+import { Video } from "@/types";
 
 const DropZoneInnerContent = () => {
   return (
@@ -24,10 +26,14 @@ const DropZoneInnerContent = () => {
   );
 };
 
-const UploadVideoDropZone = () => {
+const UploadVideoDropZone = ({
+  setOpened,
+}: {
+  setOpened: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [progress, setProgress] = useState(0);
   const mutation = useMutation<
-    string,
+    AxiosResponse<Video>,
     AxiosError,
     Parameters<typeof uploadVideo>["0"]
   >(uploadVideo);
@@ -65,6 +71,9 @@ const UploadVideoDropZone = () => {
           mb="xl"
           mt="md"
         ></Progress>
+      )}
+      {mutation.data && (
+        <EditVideoForm videoId={mutation.data.data._id} setOpened={setOpened} />
       )}
     </>
   );

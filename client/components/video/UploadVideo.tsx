@@ -9,7 +9,7 @@ type UploadVideoButtonProps = ButtonProps & {
   onClick: () => void;
 };
 
-export function UploadVideButton(props: UploadVideoButtonProps) {
+export function UploadVideoButton(props: UploadVideoButtonProps) {
   return (
     <Button
       {...props}
@@ -38,11 +38,11 @@ const UploadVideo = () => {
         title="Upload Video"
         size={"xl"}
       >
-        <UploadVideoDropZone />
+        <UploadVideoDropZone setOpened={setOpened} />
       </Modal>
-      <UploadVideButton onClick={() => setOpened(true)} color="green">
+      <UploadVideoButton onClick={() => setOpened(true)} color="green">
         Upload a video
-      </UploadVideButton>
+      </UploadVideoButton>
     </>
   );
 };
