@@ -6,14 +6,13 @@ import { SimpleGrid } from "@mantine/core";
 
 const Home = () => {
   const { videos } = useVideo();
-  const Videos = (videos || []).map((video) => {
-    return (
-      <SimpleGrid cols={3} key={video._id} mb={10}>
-        <Video video={video}></Video>
-      </SimpleGrid>
-    );
-  });
-  return <>{Videos}</>;
+  return (
+    <SimpleGrid cols={3} mb={10}>
+      {(videos || []).map((video) => {
+        return <Video key={video._id} video={video} />;
+      })}
+    </SimpleGrid>
+  );
 };
 
 Home.getLayout = function (page: ReactElement) {

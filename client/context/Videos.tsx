@@ -29,8 +29,7 @@ export const VideoContextProvidor = ({
   };
   return (
     <videoContext.Provider value={values}>
-      {children}
-      {isLoading && <Loader></Loader>}
+      {isLoading && <Loader />}
       {!isLoading && children}
     </videoContext.Provider>
   );
