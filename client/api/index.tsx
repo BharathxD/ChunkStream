@@ -80,7 +80,6 @@ export const updateVideo = async ({
 };
 
 export const getVideos = async () => {
-  const response = await axios.get(videoBase);
-  const data = await response.data;
+  const { data } = await axios.get(videoBase);
   return data;
 };
