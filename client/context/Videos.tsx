@@ -1,6 +1,7 @@
 import { getVideos } from "@/api";
+import { Loader } from "@mantine/core";
 import { QueryKeys, Video } from "@/types";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -16,13 +17,25 @@ const videoContext = createContext<{
   //@ts-ignore
 }>(null);
 
-const ContextProvidor = ({ children }: { children: React.ReactNode }) => {
+export const VideoContextProvidor = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const { data, isLoading, refetch } = useQuery(QueryKeys.videos, getVideos);
   const values = {
     videos: data,
     refetch,
   };
   return (
-    <videoContext.Provider values={values}>{children}</videoContext.Provider>
+    <videoContext.Provider value={values}>
+      {children}
+      {isLoading && <Loader></Loader>}
+      {!isLoading && children}
+    </videoContext.Provider>
   );
 };
+
+export const useVideo = () => useContext(videoContext);
+
+export default VideoContextProvidor;

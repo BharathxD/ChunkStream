@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserContextProvider } from "@/context";
+import VideoContextProvidor from "@/context/Videos";
 
 const queryClient = new QueryClient();
 
@@ -39,11 +40,13 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         <QueryClientProvider client={queryClient}>
           <Notifications />
           <UserContextProvider>
-            {getLayout(
-              <main>
-                <Component {...pageProps} />
-              </main>
-            )}
+            <VideoContextProvidor>
+              {getLayout(
+                <main>
+                  <Component {...pageProps} />
+                </main>
+              )}
+            </VideoContextProvidor>
           </UserContextProvider>
         </QueryClientProvider>
       </MantineProvider>

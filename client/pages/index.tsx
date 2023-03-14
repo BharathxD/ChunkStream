@@ -1,8 +1,10 @@
 import HomePageLayout from "@/layout/HomePageLayout";
+import { useVideo } from "@/context/Videos";
 import { ReactElement } from "react";
 
 const Home = () => {
-  return <h1>Home Page</h1>;
+  const { videos } = useVideo();
+  return <p>{JSON.stringify(videos)}</p>;
 };
 
 Home.getLayout = function (page: ReactElement) {

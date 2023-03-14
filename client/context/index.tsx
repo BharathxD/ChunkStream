@@ -10,7 +10,7 @@ import {
 } from "react-query";
 
 const UserContext = createContext<{
-  user: user;
+  user: { valid: boolean; expired: boolean; decoded: user };
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<any, unknown>>;

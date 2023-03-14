@@ -6,7 +6,6 @@ import { useUser } from "@/context";
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   const { user, refetch } = useUser();
-
   return (
     <AppShell
       padding={"md"}
