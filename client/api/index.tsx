@@ -78,3 +78,9 @@ export const updateVideo = async ({
   );
   return response;
 };
+
+export const getVideos = async () => {
+  const response = await axios.get(videoBase);
+  const data = await response.data;
+  return data;
+};
