@@ -3,6 +3,7 @@ import React from "react";
 import NavBar from "./NavBar";
 import HeaderLayout from "./Header";
 import { useUser } from "@/context";
+import Footer from "./Footer";
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
@@ -11,6 +12,7 @@ const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
       padding={"md"}
       navbar={<NavBar />}
       header={<HeaderLayout user={user} />}
+      footer={<Footer />}
     >
       {children}
     </AppShell>
