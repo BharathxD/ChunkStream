@@ -10,7 +10,6 @@ const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppShell
       padding={"md"}
-      navbar={<NavBar />}
       header={<HeaderLayout user={user} />}
       footer={<Footer />}
     >
