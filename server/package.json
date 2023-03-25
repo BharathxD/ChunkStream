@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsnd --exit-child --transpile-only src/index.ts"
-  },
+  }, 
   "keywords": [],
   "author": "",
   "license": "ISC",
