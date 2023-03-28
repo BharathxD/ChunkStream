@@ -9,10 +9,10 @@ const HeaderLayout = ({
 }: {
   user: { valid: boolean; expired: boolean; decoded: user };
 }) => {
-  const [valid, setValid] = useState<boolean>(false);
+  const [valid, setValid] = useState<boolean | undefined>(false);
   useEffect(() => {
-    setValid(user.valid);
-  }, [user.valid]);
+    setValid(user?.valid);
+  }, [user?.valid]);
 
   return (
     <Header height={"50"}>

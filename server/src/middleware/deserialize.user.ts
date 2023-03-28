@@ -2,11 +2,13 @@ import { Request, Response, NextFunction } from "express";
 import { verifyJWT } from "../modules/auth/auth.utils";
 
 const deserializeUser = (req: Request, res: Response, next: NextFunction) => {
-  const accessToken =
-    req.headers.authorization?.replace(/^Bearer\s/, "") ||
-    req.cookies.accessToken;
+  const accessToken = (
+    req.headers.authorization ||
+    req.cookies.accessToken ||
+    ""
+  ).replace(/^Bearer\s/, "");
   if (!accessToken) {
-    return res.status(401).json({ message: "Access token missing" });
+    return next();
   }
   try {
     const decoded = verifyJWT(accessToken);

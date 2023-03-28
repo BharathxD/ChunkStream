@@ -22,11 +22,11 @@ export const loginUser = async (payload: {
   email: string;
   password: string;
 }) => {
-  console.log(payload);
   const response = await axios.post(authBase, payload, {
     withCredentials: true,
   });
   const data = await response.data;
+  console.log(data)
   return data;
 };
 

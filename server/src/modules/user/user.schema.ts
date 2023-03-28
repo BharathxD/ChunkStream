@@ -22,7 +22,7 @@ export const RegisterUserSchema = {
   }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  }),
+  }), 
 };
 
 export type registerUserInput = TypeOf<typeof RegisterUserSchema.body>;

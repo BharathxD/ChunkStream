@@ -8,8 +8,8 @@ export const loginHandler = async (
   req: Request<{}, {}, loginInput>,
   res: Response
 ) => {
-  console.log("running");
   const { email, password } = req.body;
+  console.log(req.body);
   // TODO: Find user by email
   const user = await validateUser({ email, password });
   // TODO: Verify user password}

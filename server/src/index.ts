@@ -21,14 +21,14 @@ app.use(
   cors({
     origin: CORS_ORIGIN,
     credentials: true,
-    methods: "*",
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
   })
 );
 app.use(helmet());
 app.use(deserializeUser);
 
-app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
 app.use("/api/videos", videoRoute);
 
 const server = app.listen(PORT, async () => {
