@@ -2,13 +2,12 @@ import { getModelForClass, prop, pre } from "@typegoose/typegoose";
 import argon2 from "argon2";
 
 @pre<User>("save", async function (this, next) {
-  // If the password is bening modified and the password is new, we will hash it
-  if (!this.isModified("password") || this.isNew) {
+  if (this.isModified("password")) {
     // We don't need to salt, as argon will handle it
     const hash = await argon2.hash(this.password);
     this.password = hash;
-    return next();
   }
+  return next();
 })
 
 // We are going to use this class for the model interface, and export a model

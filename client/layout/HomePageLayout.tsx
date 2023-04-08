@@ -1,6 +1,5 @@
 import { AppShell } from "@mantine/core";
 import React from "react";
-import NavBar from "./NavBar";
 import HeaderLayout from "./Header";
 import { useUser } from "@/context";
 import Footer from "./Footer";

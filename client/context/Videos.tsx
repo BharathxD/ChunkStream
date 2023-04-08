@@ -28,9 +28,7 @@ export const VideoContextProvidor = ({
     refetch,
   };
   return (
-    <videoContext.Provider value={values}>
-      {children}
-    </videoContext.Provider>
+    <videoContext.Provider value={values}>{children}</videoContext.Provider>
   );
 };
 

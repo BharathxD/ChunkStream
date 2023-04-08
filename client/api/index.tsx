@@ -26,7 +26,7 @@ export const loginUser = async (payload: {
     withCredentials: true,
   });
   const data = await response.data;
-  console.log(data)
+  console.log(data);
   return data;
 };
 
