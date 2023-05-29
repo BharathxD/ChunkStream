@@ -1,5 +1,5 @@
 import HomePageLayout from "@/layout/HomePageLayout";
-import { Box, Card } from "@mantine/core";
+import { Box, Card, Divider, Flex, Text, Title } from "@mantine/core";
 import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import React, { Fragment, ReactElement, useEffect, useState } from "react";
@@ -27,23 +27,30 @@ const Watch = () => {
     return null;
   }
   return (
-    <Box p={"2.5rem"}>
-      <Box>
-        <h1>{data && data.title}</h1>
-      </Box>
-      <Box>
-        <ReactPlayer
-          style={{
-            aspectRatio: "16/9",
-            borderRadius: "1rem",
-          }}
-          url={videoSrc}
-          controls={true}
-          playing={false}
-          muted={false}
-        />
-      </Box>
-    </Box>
+    <Card withBorder radius="md" p="md">
+      <Flex mih={100} gap="lg" justify="center" direction="column" wrap="wrap">
+        <Box>
+          <Title order={2}>{data?.title}</Title>
+        </Box>
+        <Box>
+          <ReactPlayer
+            style={{
+              aspectRatio: "16/9",
+            }}
+            url={videoSrc}
+            controls={true}
+            playing={false}
+            muted={false}
+          />
+        </Box>
+        <Box>
+          <Divider my="sm" />
+          <Text mt="md" c="dimmed">
+            {data?.description}
+          </Text>
+        </Box>
+      </Flex>
+    </Card>
   );
 };
 

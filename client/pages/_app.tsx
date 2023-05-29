@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme: "light" }}
+        theme={{ colorScheme: "light", fontFamily: 'montserrat, sans-serif', }}
       >
         <QueryClientProvider client={queryClient}>
           <Notifications />

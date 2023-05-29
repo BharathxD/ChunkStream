@@ -1,14 +1,16 @@
 import { user } from "@/types";
-import { Box, Button, Flex, Header } from "@mantine/core";
+import { Box, Button, Flex, Header, Text } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import UploadVideo from "@/components/video/UploadVideo";
+import { useRouter } from "next/router";
 
 const HeaderLayout = ({
   user,
 }: {
   user: { valid: boolean; expired: boolean; decoded: user };
 }) => {
+  const router = useRouter();
   const [valid, setValid] = useState<boolean | undefined>(false);
   useEffect(() => {
     setValid(user?.valid);
@@ -18,7 +20,7 @@ const HeaderLayout = ({
     <Header height={"50"}>
       <Flex justify={"space-between"} align={"center"} pl={"md"} pr={"md"}>
         <Box>
-          <h1>ChunkTube</h1>
+          <h1 onClick={() => router.push("/")}>ChunkTube</h1>
         </Box>
         <Box>
           {!valid && (
