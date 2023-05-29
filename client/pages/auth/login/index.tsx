@@ -35,12 +35,18 @@ const Login = () => {
     onSuccess: () => {
       router.push("/");
     },
-    onError: () => {
-      showNotification({
+    onError: (error) => {
+      let notification = {
         id: "login",
         title: "Failed",
         message: "Something went Wrong",
-      });
+      };
+      if (error.response?.status === 401) {
+        notification.title = "Invalid username or password";
+        notification.message =
+          "Please ensure that your username and password are correct";
+      }
+      showNotification(notification);
     },
   });
   return (
