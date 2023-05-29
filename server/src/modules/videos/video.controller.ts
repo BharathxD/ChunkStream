@@ -9,6 +9,7 @@ import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
 const MIME_TYPES = ["video/mp4", "video/mov"];
 
 const CHUNK_SIZE_IN_BYTES = 1000 * 1000; //? 1 MB
+
 const getPath = ({
   videoId,
   extension,
@@ -48,10 +49,10 @@ export const uploadVideoHandler = async (
   });
   bb.on("close", () => {
     res.writeHead(StatusCodes.CREATED),
-      {
-        connection: "close",
-        "Content-Type": "application/json",
-      };
+    {
+      connection: "close",
+      "Content-Type": "application/json",
+    };
     res.write(JSON.stringify(video));
     res.end();
   });
@@ -90,52 +91,57 @@ export const findVideosHandler = async (_: Request, res: Response) => {
 };
 
 export const streamVideoHander = async (req: Request, res: Response) => {
-  const { videoId } = req.params;
-  //? Range header specifies what path of the header should be returned
-  const range = req.headers.range;
-  //? It is gonna specify which chunk of the video to send
-  if (!range) {
-    //? If range is not specified
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .send({ message: "Range must be provided" });
-    return;
-  }
-  //? Fetching the Video with the id VideoId from the database
-  const video = await findVideo({ videoId });
-  if (!video) {
-    //? If video doesn't exists in the database
-    res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
-    return;
-  }
-  //? Getting the path of the video file
-  const filePath = getPath({
-    videoId: video.videoId,
-    extension: video.extension,
-  });
+  try {
+    const { videoId } = req.params;
+    //? Range header specifies what path of the header should be returned
+    const range = req.headers.range;
+    //? It is gonna specify which chunk of the video to send
+    if (!range) {
+      //? If range is not specified
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ message: "Range must be provided" });
+      return;
+    }
+    //? Fetching the Video with the id VideoId from the database
+    const video = await findVideo({ videoId });
+    if (!video) {
+      //? If video doesn't exists in the database
+      res.status(StatusCodes.NOT_FOUND).send({ message: "Video not found" });
+      return;
+    }
+    //? Getting the path of the video file
+    const filePath = getPath({
+      videoId: video.videoId,
+      extension: video.extension,
+    });
 
-  //? Determine the file size in bytes.
-  const fileSizeInBytes = fs.statSync(filePath).size;
-  //? ThisThe following line of code extracts the start position of a byte range from an HTTP Range header by removing non-digit characters and parsing the result as a number.
-  const chunkStart = Number(range.replace(/\D/g, ""));
-  //? The following line of code calculates the end position of a byte range based on the start position, the file size, and a maximum chunk size, ensuring that the end position does not exceed the file size or the maximum chunk size.
-  const chunkEnd = Math.min(
-    chunkStart + CHUNK_SIZE_IN_BYTES,
-    fileSizeInBytes - 1
-  );
-  //? The following code calculates the length of the chunk that will be sent to the client in bytes, based on the start and end positions of the byte range.
-  const contentLength = chunkEnd - chunkStart + 1;
-  const headers = {
-    "Content-Range": `bytes ${chunkStart}-${chunkEnd}/${fileSizeInBytes}`,
-    "Accept-Ranges": `bytes`,
-    "Content-Length": contentLength,
-    "Content-Type": `video/${video.extension}`,
-    "Cross-Origin-Resource-Policy": "cross-origin",
-  };
-  res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);
-  const videoStream = fs.createReadStream(filePath, {
-    start: chunkStart,
-    end: chunkEnd,
-  });
-  videoStream.pipe(res);
+    //? Determine the file size in bytes.
+    const fileSizeInBytes = fs.statSync(filePath).size;
+    //? ThisThe following line of code extracts the start position of a byte range from an HTTP Range header by removing non-digit characters and parsing the result as a number.
+    const chunkStart = Number(range.replace(/\D/g, ""));
+    //? The following line of code calculates the end position of a byte range based on the start position, the file size, and a maximum chunk size, ensuring that the end position does not exceed the file size or the maximum chunk size.
+    const chunkEnd = Math.min(
+      chunkStart + CHUNK_SIZE_IN_BYTES,
+      fileSizeInBytes - 1
+    );
+    //? The following code calculates the length of the chunk that will be sent to the client in bytes, based on the start and end positions of the byte range.
+    const contentLength = chunkEnd - chunkStart + 1;
+    const headers = {
+      "Content-Range": `bytes ${chunkStart}-${chunkEnd}/${fileSizeInBytes}`,
+      "Accept-Ranges": `bytes`,
+      "Content-Length": contentLength,
+      "Content-Type": `video/${video.extension}`,
+      "Cross-Origin-Resource-Policy": "cross-origin",
+    };
+    res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);
+    const videoStream = fs.createReadStream(filePath, {
+      start: chunkStart,
+      end: chunkEnd,
+    });
+    videoStream.pipe(res);
+
+  } catch (error: any) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Internal server error" });
+  }
 };
