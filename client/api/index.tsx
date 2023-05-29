@@ -83,3 +83,14 @@ export const getVideos = async () => {
   const { data } = await axios.get(videoBase);
   return data;
 };
+
+export const getVideo = async ({ videoId }: { videoId: string | string[] }) => {
+  try {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/videos/video/${videoId}`;
+    const response = await axios.get(endpoint);
+    const data = await response.data;
+    return data;
+  } catch (error: any) {
+    console.log(`Error: ${error.message}`);
+  }
+};

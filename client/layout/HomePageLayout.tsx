@@ -7,11 +7,10 @@ import Footer from "./Footer";
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   return (
-    <AppShell
-      header={<HeaderLayout user={user} />}
-      footer={<Footer />}
-    >
+    <AppShell>
+      <HeaderLayout user={user} />
       {children}
+      <Footer />
     </AppShell>
   );
 };

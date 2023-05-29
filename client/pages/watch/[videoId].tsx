@@ -1,8 +1,8 @@
+import { getVideo } from "@/api";
 import HomePageLayout from "@/layout/HomePageLayout";
 import { Box, Card, Divider, Flex, Text, Title } from "@mantine/core";
-import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
-import React, { Fragment, ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 
 const Watch = () => {
@@ -11,15 +11,9 @@ const Watch = () => {
   const [data, setData] = useState<any | null>(null);
   useEffect(() => {
     (async () => {
-      try {
-        if (query.videoId) {
-          const endpoint = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/videos/video/${query.videoId}`;
-          const response = await axios.get(endpoint);
-          const data = await response.data;
-          setData(data);
-        }
-      } catch (error: any) {
-        console.log(`Error: ${error.message}`);
+      if (query.videoId) {
+        const data = await getVideo({ videoId: query.videoId });
+        setData(data);
       }
     })();
   }, [query.videoId]);
@@ -27,22 +21,29 @@ const Watch = () => {
     return null;
   }
   return (
-    <Card withBorder radius="md" p="md">
+    <Card withBorder radius="md" p="md" mb="10rem">
       <Flex mih={100} gap="lg" justify="center" direction="column" wrap="wrap">
         <Box>
           <Title order={2}>{data?.title}</Title>
         </Box>
-        <Box>
+        <Card
+          withBorder
+          radius="lg"
+          p="md"
+          sx={{
+            height: "35rem",
+            aspectRatio: "16/9",
+          }}
+        >
           <ReactPlayer
-            style={{
-              aspectRatio: "16/9",
-            }}
             url={videoSrc}
             controls={true}
             playing={false}
+            width={"100%"}
+            height={"100%"}
             muted={false}
           />
-        </Box>
+        </Card>
         <Box>
           <Divider my="sm" />
           <Text mt="md" c="dimmed">

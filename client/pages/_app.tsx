@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <title>ChunkTube</title>
+        <title>ChunkStream</title>
         <meta
           name="viewport"
           content="minimum-scalable=1, initial-scale=1, width=device-width"

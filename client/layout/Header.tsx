@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import UploadVideo from "@/components/video/UploadVideo";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { useUser } from "@/context";
 
 const HeaderLayout = ({
   user,
@@ -39,7 +41,11 @@ const HeaderLayout = ({
               </Link>
             </>
           )}
-          {valid && <UploadVideo />}
+          {valid && (
+            <Box>
+              <UploadVideo />
+            </Box>
+          )}
         </Box>
       </Flex>
     </Header>

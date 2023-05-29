@@ -3,22 +3,20 @@ import { BrandGithub, BrandLinkedin, BrandTwitter } from "tabler-icons-react";
 
 const useStyles = createStyles((theme) => ({
   footer: {
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
-    }`,
-    position: "absolute",
+    borderTop: `${rem(1)} solid ${theme.colors.gray[3]}`,
+    width: "100%",
+    position: "fixed",
     bottom: 0,
     left: 0,
-    width: "100%"
+    background: "rgba( 255, 255, 255, 0.1 )",
+    backdropFilter: "blur(5px)",
   },
 
   inner: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: theme.spacing.xl,
-    paddingBottom: theme.spacing.xl,
-
+    padding: "1rem",
     [theme.fn.smallerThan("xs")]: {
       flexDirection: "column",
     },
