@@ -17,7 +17,13 @@ const HeaderLayout = ({
   }, [user?.valid]);
 
   return (
-    <Header height={"50"}>
+    <Header
+      height={"50"}
+      bg={"rgba( 255, 255, 255, 0.25 )"}
+      sx={{
+        backdropFilter: "blur(4px)",
+      }}
+    >
       <Flex justify={"space-between"} align={"center"} pl={"md"} pr={"md"}>
         <Box>
           <h1 onClick={() => router.push("/")}>ChunkTube</h1>

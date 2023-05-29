@@ -7,7 +7,7 @@ import { SimpleGrid } from "@mantine/core";
 const Home = () => {
   const { videos } = useVideo();
   return (
-    <SimpleGrid cols={3} mb={10}>
+    <SimpleGrid cols={3}>
       {(videos || []).map((video) => {
         return <Video key={video._id} video={video} />;
       })}
