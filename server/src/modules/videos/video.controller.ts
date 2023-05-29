@@ -90,6 +90,13 @@ export const findVideosHandler = async (_: Request, res: Response) => {
   return res.status(StatusCodes.OK).send(videos);
 };
 
+export const findVideoByIdHandler = async (req: Request, res: Response) => {
+  console.log("ENDPOINT HAS HIT");
+  const { videoId } = req.params;
+  const videos = await findVideo({ videoId });
+  return res.status(StatusCodes.OK).send(videos);
+};
+
 export const streamVideoHander = async (req: Request, res: Response) => {
   try {
     const { videoId } = req.params;
